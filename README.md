@@ -1,2 +1,2 @@
-# 10-Semana-OS
-Aplicação criada com base na 10ª Semana OmniStack
+# DevRadar
+Aplicação criada durante a 10ª Semana OmniStack.
