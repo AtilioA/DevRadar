@@ -69,8 +69,10 @@ function Main({ navigation }) {
                     <Marker
                         key={dev._id}
                         coordinate={
-                            { longitude: dev.location.coordinates[0],
-                                latitude: dev.location.coordinates[1],}
+                            {
+                                longitude: dev.location.coordinates[0],
+                                latitude: dev.location.coordinates[1],
+                            }
                         }>
                         <Image
                             style={styles.avatar}
@@ -101,7 +103,7 @@ function Main({ navigation }) {
                 />
 
                 <TouchableOpacity onPress={loadDevs} style={styles.loadButton}>
-                    <MaterialIcons name="my-location" size={20} color="#FFF" />
+                    <MaterialIcons name="search" size={20} color="#FFF" />
                 </TouchableOpacity>
 
             </View>
