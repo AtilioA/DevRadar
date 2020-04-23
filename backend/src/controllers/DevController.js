@@ -1,46 +1,48 @@
-const axios = require('axios')
-const Dev = require('../models/Dev')
-const parseStringAsArray = require('../utils/parseStringAsArray')
+const axios = require('axios');
+const Dev = require('../models/Dev');
+const parseStringAsArray = require('../utils/parseStringAsArray');
 const { findConnections, sendMessage } = require('../websocket');
 
 module.exports = {
-    async index(request, response) {
-        const devs = await Dev.find()
-        
-        return response.json(devs)
-    },
+  async index(request, response) {
+    const devs = await Dev.find();
 
-    async store(request, response) {
-        // console.log(request.body)
-        const { github_username, techs, latitude, longitude } = request.body
+    return response.json(devs);
+  },
 
-        let dev = await Dev.findOne({ github_username });
+  async store(request, response) {
+    // console.log(request.body)
+    const { github_username, techs, latitude, longitude } = request.body;
 
-        if (!dev) {
-            const apiResponse = await axios.get(`https://api.github.com/users/${github_username}`)
+    let dev = await Dev.findOne({ github_username });
 
-            const { name = login, avatar_url, bio } = apiResponse.data
+    if (!dev) {
+      const apiResponse = await axios.get(
+        `https://api.github.com/users/${github_username}`
+      );
 
-            const techsArray = parseStringAsArray(techs)
+      const { name = login, avatar_url, bio } = apiResponse.data;
 
-            const location = {
-                type: 'Point',
-                coordinates: [longitude, latitude]
-            }
+      const techsArray = parseStringAsArray(techs);
 
-            dev = await Dev.create({
-                github_username,
-                name,
-                avatar_url,
-                bio,
-                techs: techsArray,
-                location,
-            })
+      const location = {
+        type: 'Point',
+        coordinates: [longitude, latitude],
+      };
 
-            // console.log(name, avatar_url, bio, github_username)
-            // console.log(apiResponse.data)
-        }
+      dev = await Dev.create({
+        github_username,
+        name,
+        avatar_url,
+        bio,
+        techs: techsArray,
+        location,
+      });
 
-        return response.json(dev)
+      // console.log(name, avatar_url, bio, github_username)
+      // console.log(apiResponse.data)
     }
-}
+
+    return response.json(dev);
+  },
+};
